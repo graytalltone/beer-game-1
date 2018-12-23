@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機: 127.0.0.1
--- 產生時間： 2018 年 12 月 23 日 07:46
+-- 產生時間： 2018 年 12 月 23 日 08:21
 -- 伺服器版本: 10.1.35-MariaDB
 -- PHP 版本： 7.2.9
 
@@ -46,8 +46,19 @@ CREATE TABLE `ord` (
 --
 
 CREATE TABLE `role` (
-  `rid` int(1) NOT NULL
+  `rid` int(11) NOT NULL,
+  `name` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- 資料表的匯出資料 `role`
+--
+
+INSERT INTO `role` (`rid`, `name`) VALUES
+(1, 'Factory'),
+(2, 'Distributor'),
+(3, 'Wholesaler'),
+(4, 'Retailer');
 
 -- --------------------------------------------------------
 
@@ -56,7 +67,7 @@ CREATE TABLE `role` (
 --
 
 CREATE TABLE `team` (
-  `tid` int(2) NOT NULL,
+  `tid` int(11) NOT NULL,
   `accost` int(6) NOT NULL,
   `rank` int(2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -68,9 +79,9 @@ CREATE TABLE `team` (
 --
 
 CREATE TABLE `user` (
-  `uid` int(20) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `loginID` text NOT NULL,
   `pwd` int(20) NOT NULL,
-  `imgid` int(20) NOT NULL,
   `pms` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -78,8 +89,8 @@ CREATE TABLE `user` (
 -- 資料表的匯出資料 `user`
 --
 
-INSERT INTO `user` (`uid`, `pwd`, `imgid`, `pms`) VALUES
-(0, 1234, 0, 1);
+INSERT INTO `user` (`uid`, `loginID`, `pwd`, `pms`) VALUES
+(1, '00000000', 1234, 1);
 
 -- --------------------------------------------------------
 
@@ -102,6 +113,50 @@ CREATE TABLE `utt` (
   `uid` int(20) NOT NULL,
   `tid` int(2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- 已匯出資料表的索引
+--
+
+--
+-- 資料表索引 `role`
+--
+ALTER TABLE `role`
+  ADD PRIMARY KEY (`rid`);
+
+--
+-- 資料表索引 `team`
+--
+ALTER TABLE `team`
+  ADD PRIMARY KEY (`tid`);
+
+--
+-- 資料表索引 `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`uid`);
+
+--
+-- 在匯出的資料表使用 AUTO_INCREMENT
+--
+
+--
+-- 使用資料表 AUTO_INCREMENT `role`
+--
+ALTER TABLE `role`
+  MODIFY `rid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- 使用資料表 AUTO_INCREMENT `team`
+--
+ALTER TABLE `team`
+  MODIFY `tid` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- 使用資料表 AUTO_INCREMENT `user`
+--
+ALTER TABLE `user`
+  MODIFY `uid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
