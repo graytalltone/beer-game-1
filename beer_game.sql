@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機: 127.0.0.1
--- 產生時間： 2018 年 12 月 23 日 08:21
+-- 產生時間： 2018 年 12 月 26 日 02:45
 -- 伺服器版本: 10.1.35-MariaDB
 -- PHP 版本： 7.2.9
 
@@ -29,6 +29,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `ord` (
+  `oid` int(11) NOT NULL,
   `uid` int(20) NOT NULL,
   `ord` int(4) NOT NULL,
   `purc` int(4) NOT NULL,
@@ -79,7 +80,7 @@ CREATE TABLE `team` (
 --
 
 CREATE TABLE `user` (
-  `uid` int(11) NOT NULL,
+  `uid` bigint(20) NOT NULL,
   `loginID` text NOT NULL,
   `pwd` int(20) NOT NULL,
   `pms` int(1) NOT NULL
@@ -119,6 +120,12 @@ CREATE TABLE `utt` (
 --
 
 --
+-- 資料表索引 `ord`
+--
+ALTER TABLE `ord`
+  ADD PRIMARY KEY (`oid`);
+
+--
 -- 資料表索引 `role`
 --
 ALTER TABLE `role`
@@ -141,6 +148,12 @@ ALTER TABLE `user`
 --
 
 --
+-- 使用資料表 AUTO_INCREMENT `ord`
+--
+ALTER TABLE `ord`
+  MODIFY `oid` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- 使用資料表 AUTO_INCREMENT `role`
 --
 ALTER TABLE `role`
@@ -156,7 +169,7 @@ ALTER TABLE `team`
 -- 使用資料表 AUTO_INCREMENT `user`
 --
 ALTER TABLE `user`
-  MODIFY `uid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `uid` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
