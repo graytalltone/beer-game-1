@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機: 127.0.0.1
--- 產生時間： 2018 年 12 月 26 日 02:45
+-- 產生時間： 2018 年 12 月 26 日 04:31
 -- 伺服器版本: 10.1.35-MariaDB
 -- PHP 版本： 7.2.9
 
@@ -35,10 +35,16 @@ CREATE TABLE `ord` (
   `purc` int(4) NOT NULL,
   `need` int(4) NOT NULL,
   `sales` int(4) NOT NULL,
-  `stock` int(4) NOT NULL,
-  `cost` int(4) NOT NULL,
-  `accost` int(4) NOT NULL
+  `stock` int(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- 資料表的匯出資料 `ord`
+--
+
+INSERT INTO `ord` (`oid`, `uid`, `ord`, `purc`, `need`, `sales`, `stock`) VALUES
+(1, 0, 9, 9, 9, 9, 9),
+(2, 0, 9, 9, 9, 9, 9);
 
 -- --------------------------------------------------------
 
@@ -70,7 +76,8 @@ INSERT INTO `role` (`rid`, `name`) VALUES
 CREATE TABLE `team` (
   `tid` int(11) NOT NULL,
   `accost` int(6) NOT NULL,
-  `rank` int(2) NOT NULL
+  `rank` int(2) NOT NULL,
+  `cost` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -83,36 +90,29 @@ CREATE TABLE `user` (
   `uid` bigint(20) NOT NULL,
   `loginID` text NOT NULL,
   `pwd` int(20) NOT NULL,
-  `pms` int(1) NOT NULL
+  `pms` int(1) NOT NULL,
+  `rid` int(1) NOT NULL,
+  `tid` int(2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- 資料表的匯出資料 `user`
 --
 
-INSERT INTO `user` (`uid`, `loginID`, `pwd`, `pms`) VALUES
-(1, '00000000', 1234, 1);
+INSERT INTO `user` (`uid`, `loginID`, `pwd`, `pms`, `rid`, `tid`) VALUES
+(1, '00000000', 1234, 1, 0, 0);
 
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `utr`
+-- 資料表結構 `week`
 --
 
-CREATE TABLE `utr` (
-  `uid` int(20) NOT NULL,
-  `rid` int(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- 資料表結構 `utt`
---
-
-CREATE TABLE `utt` (
-  `uid` int(20) NOT NULL,
-  `tid` int(2) NOT NULL
+CREATE TABLE `week` (
+  `oid` int(11) NOT NULL,
+  `cost` int(11) NOT NULL,
+  `accost` int(11) NOT NULL,
+  `week` int(2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -151,7 +151,7 @@ ALTER TABLE `user`
 -- 使用資料表 AUTO_INCREMENT `ord`
 --
 ALTER TABLE `ord`
-  MODIFY `oid` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `oid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- 使用資料表 AUTO_INCREMENT `role`
