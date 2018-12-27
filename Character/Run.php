@@ -1,7 +1,7 @@
 <?php
 require_once("OrderModel.php");
 $order = (int)$_POST["ord"];
-$oid = "2";
+$oid = "10";
 echo $order;
 updateOrder($order,$oid);
 

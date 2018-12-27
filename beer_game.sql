@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機: 127.0.0.1
--- 產生時間： 2018 年 12 月 26 日 04:31
+-- 產生時間： 2018 年 12 月 27 日 11:56
 -- 伺服器版本: 10.1.35-MariaDB
 -- PHP 版本： 7.2.9
 
@@ -25,47 +25,30 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `ord`
+-- 資料表結構 `order`
 --
 
-CREATE TABLE `ord` (
+CREATE TABLE `order` (
   `oid` int(11) NOT NULL,
   `uid` int(20) NOT NULL,
   `ord` int(4) NOT NULL,
   `purc` int(4) NOT NULL,
   `need` int(4) NOT NULL,
   `sales` int(4) NOT NULL,
-  `stock` int(4) NOT NULL
+  `stock` int(4) NOT NULL,
+  `cost` int(11) NOT NULL,
+  `week` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- 資料表的匯出資料 `ord`
+-- 資料表的匯出資料 `order`
 --
 
-INSERT INTO `ord` (`oid`, `uid`, `ord`, `purc`, `need`, `sales`, `stock`) VALUES
-(1, 0, 9, 9, 9, 9, 9),
-(2, 0, 9, 9, 9, 9, 9);
-
--- --------------------------------------------------------
-
---
--- 資料表結構 `role`
---
-
-CREATE TABLE `role` (
-  `rid` int(11) NOT NULL,
-  `name` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- 資料表的匯出資料 `role`
---
-
-INSERT INTO `role` (`rid`, `name`) VALUES
-(1, 'Factory'),
-(2, 'Distributor'),
-(3, 'Wholesaler'),
-(4, 'Retailer');
+INSERT INTO `order` (`oid`, `uid`, `ord`, `purc`, `need`, `sales`, `stock`, `cost`, `week`) VALUES
+(10, 3, 0, 0, 0, 0, 0, 0, 0),
+(11, 3, 0, 0, 0, 0, 0, 0, 0),
+(12, 3, 0, 0, 0, 0, 0, 0, 0),
+(13, 3, 0, 0, 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -75,9 +58,8 @@ INSERT INTO `role` (`rid`, `name`) VALUES
 
 CREATE TABLE `team` (
   `tid` int(11) NOT NULL,
-  `accost` int(6) NOT NULL,
   `rank` int(2) NOT NULL,
-  `cost` int(11) NOT NULL
+  `Tcost` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -89,47 +71,33 @@ CREATE TABLE `team` (
 CREATE TABLE `user` (
   `uid` bigint(20) NOT NULL,
   `loginID` text NOT NULL,
-  `pwd` int(20) NOT NULL,
+  `pwd` text NOT NULL,
   `pms` int(1) NOT NULL,
   `rid` int(1) NOT NULL,
-  `tid` int(2) NOT NULL
+  `tid` int(2) NOT NULL,
+  `Ucost` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- 資料表的匯出資料 `user`
 --
 
-INSERT INTO `user` (`uid`, `loginID`, `pwd`, `pms`, `rid`, `tid`) VALUES
-(1, '00000000', 1234, 1, 0, 0);
-
--- --------------------------------------------------------
-
---
--- 資料表結構 `week`
---
-
-CREATE TABLE `week` (
-  `oid` int(11) NOT NULL,
-  `cost` int(11) NOT NULL,
-  `accost` int(11) NOT NULL,
-  `week` int(2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+INSERT INTO `user` (`uid`, `loginID`, `pwd`, `pms`, `rid`, `tid`, `Ucost`) VALUES
+(1, '00000000', '1234', 1, 0, 0, 0),
+(2, 'test', '123', 0, 0, 0, 0),
+(3, 'aaa', '0', 0, 0, 0, 0),
+(5, 'ccc', '111', 0, 0, 0, 0),
+(6, 'ccc', '222', 0, 0, 0, 0);
 
 --
 -- 已匯出資料表的索引
 --
 
 --
--- 資料表索引 `ord`
+-- 資料表索引 `order`
 --
-ALTER TABLE `ord`
+ALTER TABLE `order`
   ADD PRIMARY KEY (`oid`);
-
---
--- 資料表索引 `role`
---
-ALTER TABLE `role`
-  ADD PRIMARY KEY (`rid`);
 
 --
 -- 資料表索引 `team`
@@ -148,16 +116,10 @@ ALTER TABLE `user`
 --
 
 --
--- 使用資料表 AUTO_INCREMENT `ord`
+-- 使用資料表 AUTO_INCREMENT `order`
 --
-ALTER TABLE `ord`
-  MODIFY `oid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- 使用資料表 AUTO_INCREMENT `role`
---
-ALTER TABLE `role`
-  MODIFY `rid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+ALTER TABLE `order`
+  MODIFY `oid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- 使用資料表 AUTO_INCREMENT `team`
@@ -169,7 +131,7 @@ ALTER TABLE `team`
 -- 使用資料表 AUTO_INCREMENT `user`
 --
 ALTER TABLE `user`
-  MODIFY `uid` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `uid` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

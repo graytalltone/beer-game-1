@@ -2,108 +2,106 @@
 require_once("db.php");
 require_once("OrderModel.php");
 ?>
-  <head>
-    <title>Beer-game</title>
+<head>
+	<title>Beer-game</title>
 
     <style>
-      table {
+    table {
         width: 100%;
         border-spacing: 0px;
         border: 1px solid;
-      }
-      caption {
+    }
+    caption {
         text-align: left;
         padding-bottom: .25em;
         font-size: 1.5em;
-      }
-      thead th {
+    }
+    thead th {
         background: #333;
         color: #fff;
-      }
-      td,
-      th {
+    }
+    td,
+    th {
         padding: .5em;
-      }
-      th:not(:last-child),
-      td:not(:last-child) {
+    }
+    th:not(:last-child),
+    td:not(:last-child) {
         border-right: 1px solid;
-      }
-      tr:not(:last-child) td,
-      tr:not(:last-child) th {
+    }
+    tr:not(:last-child) td,
+    tr:not(:last-child) th {
         border-bottom: 1px solid;
-      }
-      tbody tr:first-child td {
+    }
+    tbody tr:first-child td {
         border-top: 1px solid;
-      }
-      tbody tr:focus-within {
+    }
+    tbody tr:focus-within {
         background: #aee8f5;
-      }
+    }
       
-      tbody tr:hover {
+    tbody tr:hover {
         background: #aee8f5;
-      }
-      a {
+    }
+    a {
         font-weight: bold;
         color: #000;
-      }
-      a:hover,
-      a:focus {
+    }
+    a:hover,
+    a:focus {
         background: #000;
         color: #fff;
         outline: 4px solid #000;
-      }
-      body {
+    }
+    body {
         font-family: Arial;
         padding: 20px 40px;
-      }
+    }
     </style>
-  </head>
+</head>
 
-  <body>
+<body>
 
     <div class="">
-      <table>
+		<table>
         <caption>
           Factory
         </caption>
         <thead>
-          <tr>
-            <th scope="col">
-              訂貨量
+			<tr>
+			<th scope="col">
+				訂貨量
+			</th>
+			<th scope="col">
+				進貨量
             </th>
             <th scope="col">
-              進貨量
+				需求量
             </th>
             <th scope="col">
-			  需求量
-            </th>
-            <th scope="col">
-              銷貨量
+				銷貨量
             </th>
 			<th scope="col">
-              庫存量
+				庫存量
             </th>
 			<th scope="col">
-              成本
+				成本
             </th>
 			<th scope="col">
-              累積成本
+				累積成本
             </th>
           </tr>
         </thead>
-        <tbody>
-          <?php
+		<tbody>
+<?php
+
 $result = orderlist();
-
-
 while (	$rs = mysqli_fetch_assoc($result)) {
     echo"<tr><td>" , $rs['ord'],"</td>";
 	echo"<td>" , $rs['purc'],"</td>";
 	echo"<td>" , $rs['need'],"</td>";
 	echo"<td>" , $rs['sales'],"</td>";
 	echo"<td>" , $rs['stock'],"</td>";
-
-    }
+}
 ?>
 
 <tr><td>
