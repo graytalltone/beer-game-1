@@ -1,4 +1,7 @@
-<!DOCTYPE html>
+<?php
+require_once("db.php");
+require_once("OrderModel.php");
+?>
   <head>
     <title>Beer-game</title>
 
@@ -59,8 +62,6 @@
   <body>
 
     <div class="">
-
-
       <table>
         <caption>
           Factory
@@ -91,16 +92,29 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>
-              手動輸入
-            </td>
-            <td>a</td> <td>b</td> <td>c</td> <td>d</td> <td>e</td> <td>f</td>
-          </tr>
-          
-        </tbody>
-      </table>
-    </div>
+          <?php
+$result = orderlist();
 
-  </body>
+
+while (	$rs = mysqli_fetch_assoc($result)) {
+    echo"<tr><td>" , $rs['ord'],"</td>";
+	echo"<td>" , $rs['purc'],"</td>";
+	echo"<td>" , $rs['need'],"</td>";
+	echo"<td>" , $rs['sales'],"</td>";
+	echo"<td>" , $rs['stock'],"</td>";
+
+    }
+?>
+
+<tr><td>
+<form method = "POST" action = "Run.php">
+    <input type = "text" name = "ord">
+    <input type = "submit" value = "下單">
+</form>
+</td></tr>
+</tbody>
+</table>
+</div>
+
+</body>
 </html>
