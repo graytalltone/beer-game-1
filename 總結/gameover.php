@@ -1,4 +1,19 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+﻿<?php
+require_once("db.php");
+
+function team()
+{
+    global $db;
+
+    $sql = "select team.* from team order by rank";
+    $stmt = mysqli_prepare($db, $sql);
+    mysqli_stmt_execute($stmt); //執行SQL
+    $result = mysqli_stmt_get_result($stmt);
+    return $result;
+
+}
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -124,157 +139,35 @@ h1 {
 }
 </style>
 </head>
-<body>
- <div id="wrapper">
-  <h1>小組結果</h1>
-  <div> <img src="分析表.png"></div>
-  <h2><font size="5">工廠</font></h2>
-  <table id="keywords" cellspacing="0" cellpadding="0">
-    <thead>
-      <tr>
-        <th>期數</th>
-		<th>使用者</th>
-		<th>輸入需求</th>
-        <th>進貨量</th>
-        <th>供給量</th>
-        <th>庫存</th>
-        <th>成本</th>
-		<th>累積成本</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>
-			<select>
-				<?php
-			for($i=0;$i<50;$i++){
-				$j=$i+1;
-				echo"<option>$j</option>";
-			}
-			?>
-			</select>
-		</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-      </tr>
-    </tbody>
-  </table>
-  
-  <h2><font size="5">大盤商</font></h2>
-  <table id="keywords" cellspacing="0" cellpadding="0">
-    <thead>
-      <tr>
-        <th>期數</th>
-		<th>使用者</th>
-		<th>輸入需求</th>
-        <th>進貨量</th>
-        <th>供給量</th>
-        <th>庫存</th>
-        <th>成本</th>
-		<th>累積成本</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>
-			<select>
-				<?php
-			for($i=0;$i<50;$i++){
-				$j=$i+1;
-				echo"<option>$j</option>";
-			}
-			?>
-			</select>
-		</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-      </tr>
-    </tbody>
-  </table>
-  
-    <h2><font size="5">批發商</font></h2>
-  <table id="keywords" cellspacing="0" cellpadding="0">
-    <thead>
-      <tr>
-        <th>期數</th>
-		<th>使用者</th>
-		<th>輸入需求</th>
-        <th>進貨量</th>
-        <th>供給量</th>
-        <th>庫存</th>
-        <th>成本</th>
-		<th>累積成本</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>
-			<select>
-				<?php
-			for($i=0;$i<50;$i++){
-				$j=$i+1;
-				echo"<option>$j</option>";
-			}
-			?>
-			</select>
-		</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-      </tr>
-    </tbody>
-  </table>
-  
-    <h2><font size="5">零售商</font></h2>
-  <table id="keywords" cellspacing="0" cellpadding="0">
-    <thead>
-      <tr>
-        <th>期數</th>
-		<th>使用者</th>
-		<th>輸入需求</th>
-        <th>進貨量</th>
-        <th>供給量</th>
-        <th>庫存</th>
-        <th>成本</th>
-		<th>累積成本</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>
-			<select>
-				<?php
-			for($i=0;$i<50;$i++){
-				$j=$i+1;
-				echo"<option>$j</option>";
-			}
-			?>
-			</select>
-		</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-      </tr>
-    </tbody>
-  </table>
- </div> 
+<body align="center">
+	<div id="wrapper">
+		<h1>遊戲結束</h1>
+		<div> <img src="整體分析表.png"></div>
+			<table id="keywords" cellspacing="0" cellpadding="0">
+				<thead>
+					<tr>
+						<th>隊伍</th>
+						<th>分數</th>
+						<th>排名</th>
+					</tr>
+				</thead>
+				<tbody><?php
+					$result = team();
+					while ($rs = mysqli_fetch_assoc($result)) {
+						if($rs['rank']==1){
+						echo "<tr><td><font color='red'>" , $rs['tid'] ,
+							"</font></td><td><font color='red'>" , $rs['Tcost'] ,
+							"</font></td><td><font color='red'>" , $rs['rank'],
+							"</font></td></tr>";
+						}else{
+							echo "<tr><td>" , $rs['tid'] ,
+							"</td><td>" , $rs['Tcost'] ,
+							"</td><td>" , $rs['rank'],
+							"</td></tr>";
+						}
+}?>
+				</tbody>
+			</table>
+	</div>
 </body>
 </html>
