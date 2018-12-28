@@ -1,9 +1,3 @@
-<?php
-/*
-Author: Javed Ur Rehman
-Website: http://www.allphptricks.com/
-*/
-?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,19 +7,18 @@ Website: http://www.allphptricks.com/
 </head>
 <body>
 <?php
-	require('db.php');
-	session_start();
+	require('dbconfig.php');
     // If form submitted, insert values into the database.
     if (isset($_POST['loginID'])){
 		
 		$loginID = stripslashes($_REQUEST['loginID']); // removes backslashes
-		$loginID = mysqli_real_escape_string($con,$loginID); //escapes special characters in a string
+		$loginID = mysqli_real_escape_string($db,$loginID); //escapes special characters in a string
 		$pwd = stripslashes($_REQUEST['pwd']);
-		$pwd = mysqli_real_escape_string($con,$pwd);
+		$pwd = mysqli_real_escape_string($db,$pwd);
 		
 	//Checking is user existing in the database or not
         $query = "SELECT * FROM `user` WHERE loginID='$loginID' and pwd='$pwd'";
-		$result = mysqli_query($con,$query) or die(mysql_error());
+		$result = mysqli_query($db,$query) or die(mysql_error());
 		$rows = mysqli_num_rows($result);
         if($rows==1){
 			$_SESSION['loginID'] = $loginID;
@@ -39,7 +32,7 @@ Website: http://www.allphptricks.com/
 <h1>Log In</h1>
 <form action="" method="post" name="login">
 <input type="text" name="loginID" placeholder="LoginID" required />
-<input type="pwd" name="pwd" placeholder="Password" required />
+<input type="pwd" name="pwd" placeholder="Password" required /><br>
 <input name="submit" type="submit" value="Login" />
 </form>
 <p>Not registered yet? <a href='registration.php'>Register Here</a></p>
