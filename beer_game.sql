@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機: 127.0.0.1
--- 產生時間： 2018 年 12 月 29 日 15:42
+-- 產生時間： 2018 年 12 月 29 日 16:24
 -- 伺服器版本: 10.1.35-MariaDB
 -- PHP 版本： 7.2.9
 
@@ -69,18 +69,6 @@ CREATE TABLE `ord` (
   `week` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- 資料表的匯出資料 `ord`
---
-
-INSERT INTO `ord` (`oid`, `uid`, `ord`, `purc`, `need`, `sales`, `stock`, `cost`, `week`) VALUES
-(10, 3, 0, 0, 0, 0, 0, 0, 0),
-(11, 3, 0, 0, 0, 0, 0, 0, 0),
-(12, 3, 0, 0, 0, 0, 0, 0, 0),
-(13, 3, 0, 0, 0, 0, 0, 0, 0),
-(14, 3, 0, 0, 0, 0, 0, 0, 0),
-(15, 3, 0, 0, 0, 0, 0, 0, 0);
-
 -- --------------------------------------------------------
 
 --
@@ -92,6 +80,13 @@ CREATE TABLE `team` (
   `rank` int(2) NOT NULL,
   `Tcost` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- 資料表的匯出資料 `team`
+--
+
+INSERT INTO `team` (`tid`, `rank`, `Tcost`) VALUES
+(1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -115,10 +110,10 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`uid`, `loginID`, `pwd`, `pms`, `rid`, `tid`, `Ucost`) VALUES
 (1, '00000000', '1234', 1, 0, 0, 0),
-(2, 'test', '123', 0, 0, 0, 0),
-(3, 'aaa', '0', 0, 0, 0, 0),
-(5, 'ccc', '111', 0, 0, 0, 0),
-(6, 'ccc', '222', 0, 0, 0, 0);
+(7, 'test', 'www', 0, 1, 1, 0),
+(8, 'ttt', 'eee', 0, 2, 1, 0),
+(11, '', '', 0, 3, 1, 0),
+(12, '', '', 0, 4, 1, 0);
 
 --
 -- 已匯出資料表的索引
@@ -150,19 +145,19 @@ ALTER TABLE `user`
 -- 使用資料表 AUTO_INCREMENT `ord`
 --
 ALTER TABLE `ord`
-  MODIFY `oid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `oid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- 使用資料表 AUTO_INCREMENT `team`
 --
 ALTER TABLE `team`
-  MODIFY `tid` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `tid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- 使用資料表 AUTO_INCREMENT `user`
 --
 ALTER TABLE `user`
-  MODIFY `uid` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `uid` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

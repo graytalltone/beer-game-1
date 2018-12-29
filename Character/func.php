@@ -1,5 +1,5 @@
 <?php
-require("db.php");
+require_once("db.php");
 // getCurrentUiD拿到當前uid
 // getCurrentRole拿到當前role
 // getCurrentTeam拿到當前team
@@ -8,6 +8,7 @@ require("db.php");
 
 // get某人的某欄位的資訊(user table)
 function getFromUser ($uid, $thing) {
+	global $db;
     $sql = "select '$thing' from user where uid=?;";
     $stmt = mysqli_prepare($db, $sql);
     mysqli_stmt_bind_param($stmt, "i", $uid);
@@ -16,8 +17,9 @@ function getFromUser ($uid, $thing) {
     return $rs;
 }
 //get某人在某周的某欄位值(ord table)
-function getFromOrd ($uid, $week, $thing) {    
-    $sql = "select '$thing' from order where uid=? AND week=?;";
+function getFromOrd ($uid, $week, $thing) {
+	global $db;    
+    $sql = "select '$thing' from ord where uid=? AND week=?;";
     $stmt = mysqli_prepare($db, $sql);
     mysqli_stmt_bind_param($stmt, "ii", $uid, $week);
     mysqli_stmt_execute($stmt);
@@ -26,8 +28,9 @@ function getFromOrd ($uid, $week, $thing) {
 }
 
 //修改某人在某周的某欄位值
-function updateToOrd ($uid, $week, $thing, $rs) {    
-    $sql = "update order set '$thing'=? where uid=? AND week=?;";
+function updateToOrd ($uid, $week, $thing, $rs) {
+	global $db;	
+    $sql = "update ord set '$thing'=? where uid=? AND week=?;";
     $stmt = mysqli_prepare($db, $sql);
     mysqli_stmt_bind_param($stmt, "iii", $rs, $uid, $week);
     mysqli_stmt_execute($stmt); //執行SQL
@@ -37,6 +40,7 @@ function updateToOrd ($uid, $week, $thing, $rs) {
 
 // getDownstreamID()拿到下游uid
 function getDownstreamID($uid) {
+	global $db;
     $rid = getFromUser($uid, "rid");
     if ($rid == 4) {    //零售商沒有下游了
         return false;
@@ -53,6 +57,7 @@ function getDownstreamID($uid) {
 }
 // getUpstreamID()拿到上游uid
 function getUpstreamID($uid) {
+	global $db;
     $rid = getFromUser($uid, "rid");
     if ($rid == 1) {    //生產者沒有上游了
         return $uid;    //回傳給countPurc用****************
@@ -83,6 +88,7 @@ function countPurc ($uid, $week) {
 
 // countNeed計算need
 function countNeed ($uid, $week) {
+	global $db;
     $rid =  getFromUser($uid, "rid");
     if ($rid == 4) {    //零售商沒有下游了
         $sql = "select quantity from consumer where week=?;";
