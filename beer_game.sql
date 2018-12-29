@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機: 127.0.0.1
--- 產生時間： 2018 年 12 月 27 日 11:56
+-- 產生時間： 2018 年 12 月 29 日 14:52
 -- 伺服器版本: 10.1.35-MariaDB
 -- PHP 版本： 7.2.9
 
@@ -25,10 +25,10 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- 資料表結構 `order`
+-- 資料表結構 `ord`
 --
 
-CREATE TABLE `order` (
+CREATE TABLE `ord` (
   `oid` int(11) NOT NULL,
   `uid` int(20) NOT NULL,
   `ord` int(4) NOT NULL,
@@ -41,14 +41,15 @@ CREATE TABLE `order` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- 資料表的匯出資料 `order`
+-- 資料表的匯出資料 `ord`
 --
 
-INSERT INTO `order` (`oid`, `uid`, `ord`, `purc`, `need`, `sales`, `stock`, `cost`, `week`) VALUES
+INSERT INTO `ord` (`oid`, `uid`, `ord`, `purc`, `need`, `sales`, `stock`, `cost`, `week`) VALUES
 (10, 3, 0, 0, 0, 0, 0, 0, 0),
 (11, 3, 0, 0, 0, 0, 0, 0, 0),
 (12, 3, 0, 0, 0, 0, 0, 0, 0),
-(13, 3, 0, 0, 0, 0, 0, 0, 0);
+(13, 3, 0, 0, 0, 0, 0, 0, 0),
+(14, 3, 0, 0, 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -94,9 +95,9 @@ INSERT INTO `user` (`uid`, `loginID`, `pwd`, `pms`, `rid`, `tid`, `Ucost`) VALUE
 --
 
 --
--- 資料表索引 `order`
+-- 資料表索引 `ord`
 --
-ALTER TABLE `order`
+ALTER TABLE `ord`
   ADD PRIMARY KEY (`oid`);
 
 --
@@ -116,10 +117,10 @@ ALTER TABLE `user`
 --
 
 --
--- 使用資料表 AUTO_INCREMENT `order`
+-- 使用資料表 AUTO_INCREMENT `ord`
 --
-ALTER TABLE `order`
-  MODIFY `oid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+ALTER TABLE `ord`
+  MODIFY `oid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- 使用資料表 AUTO_INCREMENT `team`
