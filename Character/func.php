@@ -17,7 +17,7 @@ function getFromUser ($uid, $thing) {
 }
 //get某人在某周的某欄位值(ord table)
 function getFromOrd ($uid, $week, $thing) {    
-    $sql = "select '$thing' from ord where uid=? AND week=?;";
+    $sql = "select '$thing' from order where uid=? AND week=?;";
     $stmt = mysqli_prepare($db, $sql);
     mysqli_stmt_bind_param($stmt, "ii", $uid, $week);
     mysqli_stmt_execute($stmt);
@@ -27,7 +27,7 @@ function getFromOrd ($uid, $week, $thing) {
 
 //修改某人在某周的某欄位值
 function updateToOrd ($uid, $week, $thing, $rs) {    
-    $sql = "update ord set '$thing'=? where uid=? AND week=?;";
+    $sql = "update order set '$thing'=? where uid=? AND week=?;";
     $stmt = mysqli_prepare($db, $sql);
     mysqli_stmt_bind_param($stmt, "iii", $rs, $uid, $week);
     mysqli_stmt_execute($stmt); //執行SQL

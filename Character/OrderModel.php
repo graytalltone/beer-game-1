@@ -14,7 +14,7 @@ function checkOrder($order){
 
 function updateOrder($order,$oid){
 	global $db;
-	$sql = "update ord set ord = ? where oid = ? ";
+	$sql = "update order set ord = ? where oid = ? ";
 	$stmt = mysqli_prepare($db, $sql);
 	mysqli_stmt_bind_param($stmt, "ii",$order,$oid);
 	mysqli_stmt_execute($stmt); 
@@ -23,7 +23,7 @@ function updateOrder($order,$oid){
 
 function addOrder(){
     global $db;
-    $sql = "insert into ord(uid) values(3)";
+    $sql = "insert into order(uid) values(3)";
     $stmt = mysqli_prepare($db, $sql);
     mysqli_stmt_execute($stmt); 
     return;
