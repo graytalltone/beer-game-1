@@ -1,6 +1,16 @@
 <?php
 require_once("db.php");
 require_once("Factory.php");
+	
+function checkOrder($order){
+	if($order < 0){
+		return false;
+	}
+	else{
+		return true;
+	}
+}
+
 
 function updateOrder($order,$oid){
 	global $db;
