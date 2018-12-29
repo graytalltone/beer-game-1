@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機: 127.0.0.1
--- 產生時間： 2018 年 12 月 29 日 14:52
+-- 產生時間： 2018 年 12 月 29 日 15:42
 -- 伺服器版本: 10.1.35-MariaDB
 -- PHP 版本： 7.2.9
 
@@ -21,6 +21,35 @@ SET time_zone = "+00:00";
 --
 -- 資料庫： `beer game`
 --
+
+-- --------------------------------------------------------
+
+--
+-- 資料表結構 `consumer`
+--
+
+CREATE TABLE `consumer` (
+  `week` int(11) NOT NULL,
+  `quanitity` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- 資料表的匯出資料 `consumer`
+--
+
+INSERT INTO `consumer` (`week`, `quanitity`) VALUES
+(1, 10),
+(2, 15),
+(1, 10),
+(2, 15),
+(3, 15),
+(4, 18),
+(5, 15),
+(6, 15),
+(7, 6),
+(8, 33),
+(9, 12),
+(10, 15);
 
 -- --------------------------------------------------------
 
@@ -49,7 +78,8 @@ INSERT INTO `ord` (`oid`, `uid`, `ord`, `purc`, `need`, `sales`, `stock`, `cost`
 (11, 3, 0, 0, 0, 0, 0, 0, 0),
 (12, 3, 0, 0, 0, 0, 0, 0, 0),
 (13, 3, 0, 0, 0, 0, 0, 0, 0),
-(14, 3, 0, 0, 0, 0, 0, 0, 0);
+(14, 3, 0, 0, 0, 0, 0, 0, 0),
+(15, 3, 0, 0, 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -120,7 +150,7 @@ ALTER TABLE `user`
 -- 使用資料表 AUTO_INCREMENT `ord`
 --
 ALTER TABLE `ord`
-  MODIFY `oid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `oid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- 使用資料表 AUTO_INCREMENT `team`
