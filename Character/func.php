@@ -77,13 +77,19 @@ function getUpstreamID($uid) {
 function countPurc ($uid, $week) {
     
     if ($week <= 2) {    //延遲兩週
-        $sales = 0;    //上游沒出貨
+        $purc = 0;    //上游沒出貨
     } else {
-        $upstream = getUpstreamID($uid);    //上游uid
         $Ago = $week - 2;    //上上週
-        $sales = getFromOrd ($upstream, $Ago, "sales");    //上游上上週的銷售量
+        $rid =  getFromUser($uid, "rid");
+
+        if ($rid == 1) {    //生產者沒有上游了
+            $purc = getFromOrd ($uid, $Ago, "ord");    //自己上上週的訂貨量
+        } else {
+            $upstream = getUpstreamID($uid);    //上游uid
+            $purc = getFromOrd ($upstream, $Ago, "sales");    //上游上上週的銷售量
+        }
     }
-    updateToOrd ($uid, $week, "purc", $sales);
+    updateToOrd ($uid, $week, "purc", $purc);
 }
 
 // countNeed計算need
@@ -95,20 +101,20 @@ function countNeed ($uid, $week) {
         $stmt = mysqli_prepare($db, $sql);
         mysqli_stmt_bind_param($stmt, "i", $week);
         mysqli_stmt_execute($stmt);
-        $ord = mysqli_stmt_get_result($stmt);    //本週消費者的訂購量
+        $ord = mysqli_stmt_get_result($stmt);    //消費者本週的訂購量
     } else {
         $downstream = getDownstreamID($uid);    //下游的uid
-        $ord = getFromOrd ($downstream, $week, "ord");    //本週下游的訂購量
+        $ord = getFromOrd ($downstream, $week, "ord");    //下游本週的訂購量
     }
     
     if ($week == 1) {    //第一周的需求＝訂購量
         $need = $ord;
     } else {
         $Ago = $week - 1;    //上週
-        $Lstock = getFromOrd ($uid, $Ago, "stock");    //上周自己的庫存量    
+        $Lstock = getFromOrd ($uid, $Ago, "stock");    //自己上周的庫存量    
     
         if ($Lstock < 0) {    //若有欠
-            $need = $Lstock + $ord;
+            $need = (-$Lstock) + $ord;
         } else {
             $need = $ord;
         }
@@ -119,34 +125,39 @@ function countNeed ($uid, $week) {
 // countsales計算sales
 function countsales ($uid, $week) {
     if ($week == 1) {
-        $Lstock = getFromOrd ($uid, $week, "stock");    //第一周庫存量
+        $Lstock = 15;    //第一周庫存量
     } else {
         $Ago = $week - 1;    //上週
-        $Lstock = getFromOrd ($uid, $Ago, "stock");    //上周自己的庫存量
+        $Lstock = getFromOrd ($uid, $Ago, "stock");    //自己上周的庫存量
     }
-    $purc = getFromOrd ($uid, $week, "purc");    //本週自己的進貨量
-    $need = getFromOrd ($uid, $week, "need");    //本週自己的需求量
+    $purc = getFromOrd ($uid, $week, "purc");    //自己本週的進貨量
+    $need = getFromOrd ($uid, $week, "need");    //自己本週的需求量
     
-    if($need <= $Lstock + $purc) {    //夠給
+    $hand = $Lstock + $purc;    //手上擁有的量
+    
+    if($hand >= $need) {    //夠給
         $sales = $need;
-    } else {
-        $sales= $Lstock + $purc;
-    }
+    } else if ($hand > 0) {    //不夠給,先把手上的先賣出去
+        $sales= $hand;    //
+    } else {    //不夠給,手上也沒有東西可賣（銷售量不可能為負）
+        $sales = 0;
+    } 
+
     updateToOrd ($uid, $week, "sales", $sales);
 }
 
 // countstock計算stock
 function countstock ($uid, $week) {
     if ($week == 1) {
-        $stock = 15;    //初始庫存
+        $Lstock = 15;    //初始庫存
     } else {
         $Ago = $week - 1;    //上週
-        $Lstock = getFromOrd ($uid, $Ago, "stock");    //上週自己的庫存量
-        $purc = getFromOrd ($uid, $week, "purc");    //本週自己的進貨量
-        $need = getFromOrd ($uid, $week, "need");    //本週自己的需求量
-
-        $stock = $Lstock + $purc - $need;
+        $Lstock = getFromOrd ($uid, $Ago, "stock");    //自己上週的庫存量
     }
+    $purc = getFromOrd ($uid, $week, "purc");    //自己本週的進貨量
+    $need = getFromOrd ($uid, $week, "need");    //自己本週的需求量
+
+    $stock = $Lstock + $purc - $need;
     updateToOrd ($uid, $week, "stock", $stock);
 }
 
