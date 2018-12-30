@@ -60,7 +60,7 @@ function getUpstreamID($uid) {
 	global $db;
     $rid = getFromUser($uid, "rid");
     if ($rid == 1) {    //生產者沒有上游了
-        return $uid;    //回傳給countPurc用****************
+        return false;
     }
     $tid = getFromUser($uid, "tid");
     $rid = $rid - 1;
@@ -134,7 +134,7 @@ function countsales ($uid, $week) {
     $need = getFromOrd ($uid, $week, "need");    //自己本週的需求量
     
     $hand = $Lstock + $purc;    //手上擁有的量
-    
+
     if($hand >= $need) {    //夠給
         $sales = $need;
     } else if ($hand > 0) {    //不夠給,先把手上的先賣出去
@@ -142,7 +142,6 @@ function countsales ($uid, $week) {
     } else {    //不夠給,手上也沒有東西可賣（銷售量不可能為負）
         $sales = 0;
     } 
-
     updateToOrd ($uid, $week, "sales", $sales);
 }
 
