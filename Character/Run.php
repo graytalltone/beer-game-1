@@ -5,7 +5,7 @@ $order = (int)$_POST["ord"];
 $oid = "24";
 if(checkOrder($order)){
 	updateOrder($order,$oid);
-	countPurc(3,20);
+	
 	addOrder();
 	header("Location: Factory.php");
 }

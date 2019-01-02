@@ -1,58 +1,21 @@
 <?php
 require_once("db.php");
 
-function getCurrentUiD($lid){
-    global $db;
-    $sql = "select uid from user where loginID=?;";
-    $stmt = mysqli_prepare($db, $sql);
-    mysqli_stmt_bind_param($stmt, "s", $lid);
-    mysqli_stmt_execute($stmt);
-    $rs = mysqli_stmt_get_result($stmt);
-    while ($row = mysqli_fetch_array($rs, MYSQLI_NUM)){
-        foreach ($row as $r){
-            return $r;
-        }
-    }
+function getCurrentUiD(){
+	return $_SESSION['uid'];
 }
 
-function getCurrentRole($lid){
-    $uid = getCurrentUiD($lid);
-    global $db;
-    $sql = "select rid from user where uid=?;";
-    $stmt = mysqli_prepare($db, $sql);
-    mysqli_stmt_bind_param($stmt, "i", $uid);
-    mysqli_stmt_execute($stmt);
-    $rs = mysqli_stmt_get_result($stmt);
-    return $rs;
+function getCurrentRole(){
+	return $_SESSION['role'];
 }
 
-function getCurrentTeam($lid){ //拿到當前team
-    $uid = getCurrentUiD($lid);
-    global $db;
-    $sql = "select tid from user where uid=?;";
-    $stmt = mysqli_prepare($db, $sql);
-    mysqli_stmt_bind_param($stmt, "i", $uid);
-    mysqli_stmt_execute($stmt);
-    $rs = mysqli_stmt_get_result($stmt);
-    // while ($row = mysqli_fetch_array($rs, MYSQLI_NUM)){
-    //     foreach ($row as $r){
-    //         echo $r;
-    //         return $r;
-    //     }
-    // }
-    return $rs;
+function getCurrentTeam(){ //拿到當前team
+	return $_SESSION['tid'];
 }
 
 // getCurrentWeek拿到當前week
 function getCurrentWeek($lid){ 
-    $uid = getCurrentUiD($lid);
-    global $db;
-    $sql = "select week from ord where uid=?;";
-    $stmt = mysqli_prepare($db, $sql);
-    mysqli_stmt_bind_param($stmt, "i", $uid);
-    mysqli_stmt_execute($stmt);
-    $rs = mysqli_stmt_get_result($stmt);
-    return $rs;
+    
 }
 
 function updateOrd($lid, $order){

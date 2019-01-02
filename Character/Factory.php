@@ -94,6 +94,8 @@ require_once("OrderModel.php");
 		<tbody>
 <?php
 
+
+
 $result = orderlist();
 while (	$rs = mysqli_fetch_assoc($result)) {
     echo"<tr><td>" , $rs['ord'],"</td>";
