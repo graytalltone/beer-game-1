@@ -96,7 +96,6 @@ function getUpstreamID($uid) {
 
 // countPurc計算Purc
 function countPurc ($uid, $week) {
-    
     if ($week <= 2) {    //延遲兩週
         $purc = 0;    //上游沒出貨
     } else {
