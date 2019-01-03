@@ -1,6 +1,6 @@
 <?php
 require_once("db.php");
-require_once("OrderModel.php");
+require_once("gameModel.php");
 ?>
 <head>
 	<title>Beer-game</title>
@@ -92,18 +92,16 @@ require_once("OrderModel.php");
           </tr>
         </thead>
 		<tbody>
+        
 <?php
-
-
-
-$result = orderlist();
-while (	$rs = mysqli_fetch_assoc($result)) {
+    $result = orderlist();
+    while (	$rs = mysqli_fetch_assoc($result)) {
     echo"<tr><td>" , $rs['ord'],"</td>";
 	echo"<td>" , $rs['purc'],"</td>";
 	echo"<td>" , $rs['need'],"</td>";
 	echo"<td>" , $rs['sales'],"</td>";
 	echo"<td>" , $rs['stock'],"</td>";
-}
+    }
 ?>
 
 <tr><td>
