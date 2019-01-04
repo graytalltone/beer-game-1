@@ -1,6 +1,8 @@
 <?php
-require_once("db.php");
-//checkLogin();
+require("dbconfig.php");
+checkLogin();
+require("teamModel.php");
+$userId = $_SESSION['loginID'];
 ?>
 <!DOCTYPE html>
 <html>
@@ -10,27 +12,25 @@ require_once("db.php");
 <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-<p>Welcome <?php echo $_SESSION['loginID']; ?></p>
-<form id="beerGame" action="<?php echo $_SERVER['PHP_SELF'];?>" method="post">
-<?php
-    $i=1;
-    include("newTeam.php");
-    include("selRole.php");
-    //從資料庫顯示目前隊伍數量
-    $sql = "select * from team;";
-    $stmt = mysqli_prepare($db, $sql);
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
-    while ($rs = mysqli_fetch_assoc($result)){
-        echo "<br>Team".$rs['tid'].selectRole();
-        if ($rs['tid'] == $i){
-            include("selRole2.php");
-            $i++;
-        }
-    }
-?>
+<p>Welcome <?php echo $userId; ?></p>
+<table id="beerGame">
+<form id="beerGame" action="teamControl.php" method="post">
+    Create a team<br>Team name:
+    <input type='text' name='teamName' value=''>
+    <input type='hidden' name='userId' value="<?php echo $userId?>">
+    <input type='submit' name='act' value='createTeam'>
+</form>
+<form id="beerGame" action="teamControl.php" method="post">
+    <br><br>Join a Team<br>Team name:
+    <input type='text' name='teamName' value=''>
+    <input type='hidden' name='userId' value="<?php echo $userId?>">
+    <input type='submit' name='act' value='joinTeam'>
+</form>
+<br><br>
+<?php include("teamView.php"); ?>
 <br><br>
 </form>
+</table>
 <a href="logout.php">Logout</a>
 </body>
 </html>
