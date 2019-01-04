@@ -40,17 +40,6 @@ function getFromOrd ($uid, $week, $thing) {
     return $rs;
 }
 
-//修改某人在某周的某欄位值
-function updateToOrd ($uid, $week, $thing, $rs) {
-	global $db;	
-    $sql = "update ord set '$thing'=? where uid=? AND week=?;";
-    $stmt = mysqli_prepare($db, $sql);
-    mysqli_stmt_bind_param($stmt, "iii", $rs, $uid, $week);
-    mysqli_stmt_execute($stmt); //執行SQL
-    //echo "message updated";
-}
-
-
 // getDownstreamID()拿到下游uid
 function getDownstreamID($uid) {
 	global $db;
@@ -65,8 +54,8 @@ function getDownstreamID($uid) {
     $stmt = mysqli_prepare($db, $sql);
     mysqli_stmt_bind_param($stmt, "ii", $tid, $rid);
     mysqli_stmt_execute($stmt);
-    $downstream = mysqli_stmt_get_result($stmt);    //下游的uid
-    return $downstream;
+    $rs = mysqli_stmt_get_result($stmt);    //下游的uid
+    return $rs;
 }
 // getUpstreamID()拿到上游uid
 function getUpstreamID($uid) {
@@ -82,9 +71,43 @@ function getUpstreamID($uid) {
     $stmt = mysqli_prepare($db, $sql);
     mysqli_stmt_bind_param($stmt, "ii", $tid, $rid);
     mysqli_stmt_execute($stmt);
-    $upstream = mysqli_stmt_get_result($stmt);    //上游的uid
-    return $upstream;
+    $rs = mysqli_stmt_get_result($stmt);    //上游的uid
+    return $rs;
 }
+
+///////////////////////////////////////////////////////////////////////////////////////
+
+//修改某人在某周的某欄位值(ord table)
+function updateToOrd ($uid, $week, $thing, $rs) {
+	global $db;	
+    $sql = "update ord set '$thing'=? where uid=? AND week=?;";
+    $stmt = mysqli_prepare($db, $sql);
+    mysqli_stmt_bind_param($stmt, "iii", $rs, $uid, $week);
+    mysqli_stmt_execute($stmt); //執行SQL
+    //echo "message updated";
+}
+
+//修改某人的某欄位值(user table)
+function updateToUser ($uid, $thing, $rs) {
+	global $db;	
+    $sql = "update user set '$thing'=? where uid=?;";
+    $stmt = mysqli_prepare($db, $sql);
+    mysqli_stmt_bind_param($stmt, "ii", $rs, $uid);
+    mysqli_stmt_execute($stmt); //執行SQL
+    //echo "message updated";
+}
+
+//修改某隊的某欄位值(team table)
+function updateToTeam ($tid, $thing, $rs) {
+	global $db;	
+    $sql = "update team set '$thing'=? where tid=?;";
+    $stmt = mysqli_prepare($db, $sql);
+    mysqli_stmt_bind_param($stmt, "ii", $rs, $tid);
+    mysqli_stmt_execute($stmt); //執行SQL
+    //echo "message updated";
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////
 
 // countPurc計算Purc
 function countPurc ($uid, $week) {
@@ -171,12 +194,55 @@ function countstock ($uid, $week) {
     $stock = $Lstock + $purc - $need;
     updateToOrd ($uid, $week, "stock", $stock);
 }
-	
+
+function countOrdCost ($uid, $week) {    //此訂單的成本
+    $stock = getFromOrd ($uid, $Ago, "stock");    //自己本周的庫存量
+    
+    if ($stock < 0) {    //欠貨成本２
+        $cost = $stock * 2;
+    } else {　　　　//庫存成本１
+        $cost = $stock * 1;
+    }
+
+    updateToOrd ($uid, $week, "cost", $cost);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+function countUserCost ($uid, $week) {    //個人累積成本
+    if ($week == 1) {
+        $Lcost = 0;
+    } else {
+        $Lcost = getFromUser($uid, "Ucost");    //此人之前的累積cost
+    }
+    $cost = getFromOrd ($uid, $week, "cost");    //這周cost
+    
+    $Ucost = $Lcost + $cost;    //此人到目前為止的累積cost
+    updateToUser ($uid, "Ucost", $Ucost);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+function countTeamCost ($tid, $week) {    //團隊累積成本
+    
+    updateToTeam ($tid, "Tcost", $rs);
+}
+
+function countTeamRank ($tid, $week) {    //團隊排名
+    
+    updateToTeam ($tid, "rank", $rs);
+}
+
+function countTeamWeek ($tid, $week) {    //團隊周數進度
+    
+    updateToTeam ($tid, "week", $rs);
+}
+
 function checkOrder($order){
 	if($order < 0){
 		return false;
 	}
-	else{
+	else {
 		return true;
 	}
 }
