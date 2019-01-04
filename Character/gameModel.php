@@ -65,7 +65,7 @@ function getDownstreamID($uid) {
     $stmt = mysqli_prepare($db, $sql);
     mysqli_stmt_bind_param($stmt, "ii", $tid, $rid);
     mysqli_stmt_execute($stmt);
-    $id = mysqli_stmt_get_result($stmt);    //下游的uid
+    $downstream = mysqli_stmt_get_result($stmt);    //下游的uid
     return $downstream;
 }
 // getUpstreamID()拿到上游uid
@@ -82,7 +82,7 @@ function getUpstreamID($uid) {
     $stmt = mysqli_prepare($db, $sql);
     mysqli_stmt_bind_param($stmt, "ii", $tid, $rid);
     mysqli_stmt_execute($stmt);
-    $id = mysqli_stmt_get_result($stmt);    //上游的uid
+    $upstream = mysqli_stmt_get_result($stmt);    //上游的uid
     return $upstream;
 }
 
