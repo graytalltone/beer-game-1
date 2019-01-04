@@ -83,7 +83,7 @@ function getUpstreamID($uid) {
     mysqli_stmt_bind_param($stmt, "ii", $tid, $rid);
     mysqli_stmt_execute($stmt);
     $upstream = mysqli_stmt_get_result($stmt);    //上游的uid
-    return $upstream;aslkdjaslkdjal
+    return $upstream;
 }
 
 // countPurc計算Purc
