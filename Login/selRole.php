@@ -1,5 +1,5 @@
 <?php
-require_once("dbconfig.php");
+require_once("db.php");
     function selectRole(){
         $role='';
         $btns = array(

@@ -1,6 +1,6 @@
 <?php
-require("dbconfig.php");
-checkLogin();
+require_once("db.php");
+//checkLogin();
 ?>
 <!DOCTYPE html>
 <html>

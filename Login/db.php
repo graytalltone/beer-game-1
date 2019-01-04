@@ -1,7 +1,16 @@
 <?php
-	$con = mysqli_connect("localhost","root","","beer game");
-	// Check connection
-	if (mysqli_connect_errno()) {
-	  echo "Failed to connect to MySQL: " . mysqli_connect_error();
+session_start();
+$host = 'localhost';
+$user = 'root';
+$pass = '';
+$dbName = 'beer game'; 
+$db = mysqli_connect($host, $user, $pass, $dbName) or die('Error with MySQL connection');
+mysqli_query($db, "SET NAMES utf8");
+
+/*function checkLogin() {
+	if ( ! isset($_SESSION["loginID"])) {
+            header("Location: index.php");
+            exit();
 	}
+}*/
 ?>
