@@ -1,6 +1,6 @@
 <?php
-require_once('db.php');
-require_once("registrationModel.php");
+	require_once('db.php');
+	require_once("registrationModel.php");
 ?>
 <!DOCTYPE html>
 <html>
@@ -19,6 +19,5 @@ require_once("registrationModel.php");
 </form>
 <br /><br />
 </div>
-
 </body>
 </html>

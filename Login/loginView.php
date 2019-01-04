@@ -1,6 +1,6 @@
 <?php
-require_once('db.php');
-require_once("loginModel.php");
+	require_once('db.php');
+	require_once("loginModel.php");
 ?>
 <!DOCTYPE html>
 <html>

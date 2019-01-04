@@ -16,15 +16,6 @@
 		$pwd = stripslashes($_REQUEST['pwd']);
 		$pwd = mysqli_real_escape_string($db,$pwd);
 		
-		// get session
-		$sql = "select * from user where loginID='$loginID' and pwd='$pwd'";
-        $stmt = mysqli_prepare($db, $sql);
-        mysqli_stmt_execute($stmt); //執行SQL
-        $result = mysqli_stmt_get_result($stmt); 
-        $r=mysqli_fetch_assoc($result);
-		$_SESSION['uid'] = $r['uid'];
-		
-		
 	//Checking is user existing in the database or not
         $query = "SELECT * FROM `user` WHERE loginID='$loginID' and pwd='$pwd'";
 		$result = mysqli_query($db,$query) or die(mysql_error());
