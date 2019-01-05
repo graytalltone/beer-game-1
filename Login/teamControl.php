@@ -1,40 +1,37 @@
 <?php
-require("dbconfig.php");
-require("teamModel.php");
+require ("teamModel1.php");
 $action = $_REQUEST['act'];
 switch ($action) {
-	case 'createTeam':
-		$userId = stripslashes($_REQUEST['userId']); 
-		$userId = mysqli_real_escape_string($db, $userId);
-		$teamName = stripslashes($_REQUEST['teamName']); 
-		$teamName = mysqli_real_escape_string($db, $teamName);
-		createTeam($teamName, $userId);
-		header("refresh:5; url=index.php");
+	case 'Factory':
+	    $rid = 1;
+		selectRole($_REQUEST['team'], $rid);
 		break;
-
-	case 'joinTeam':
-		$userId= stripslashes($_REQUEST['userId']);
-		$userId = mysqli_real_escape_string($db, $userId);
-		$teamName = stripslashes($_REQUEST['teamName']); 
-		$teamName = mysqli_real_escape_string($db, $teamName);
-		joinTeam($userId, $teamName);
-		header("refresh:5; url=index.php");
-		break; 
-
-	case 'pickRole':
-		$userId = stripslashes($_REQUEST['userId']); 
-		$userId = mysqli_real_escape_string($db,$userId);
-		$role = stripslashes($_REQUEST['role']); 
-		$role = mysqli_real_escape_string($db,$role);
-		pickRole($userId, $role);
-		header("Location: waiting.php");
+		
+	case 'Distrubutor':
+		$rid = 2;
+	    selectRole($_REQUEST['team'], $rid);
 		break;
-
-	case 'myTeam':
-		myTeam($_REQUEST['userId']);
+		
+	case 'Wholesaler':
+	    $rid = 3;
+	    selectRole($_REQUEST['team'], $rid);
 		break;
-
-	default:
-	break;
+		
+	case 'Retailer':
+		$rid = 4;
+	    selectRole($_REQUEST['team'], $rid);
+		break;
+		
+	case 'NewTeam':
+		NewTeam();
+		break;
+		
+    case 'logout':
+		logOut();
+        header("Location: loginView.php");
+		break;
+        
+    default:
+        break;
 }
 ?>
