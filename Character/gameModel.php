@@ -13,32 +13,57 @@ function getCurrentRole(){
 function getCurrentTeam(){ //拿到當前team
 	return $_SESSION['tid'];
 }
-
 // getCurrentWeek拿到當前week
 function getCurrentWeek(){ 
     
 }
-
-// get某人的某欄位的資訊(user table)
-function getFromUser ($uid, $thing) {
+/* function countEnd(){
 	global $db;
-    $sql = "select '$thing' from user where uid=?;";
+    $sql = "select $week from ord where uid=4 and tid = 1;";
     $stmt = mysqli_prepare($db, $sql);
     mysqli_stmt_bind_param($stmt, "i", $uid);
     mysqli_stmt_execute($stmt);
     $rs = mysqli_stmt_get_result($stmt);
-    return $rs;
+    $r=mysqli_fetch_assoc($rs);
+    return $r[$week];
+} */
+
+
+
+function getFromUser ($uid, $thing) {
+	global $db;
+    $sql = "select ($thing) from user where uid=?;";
+    $stmt = mysqli_prepare($db, $sql);
+    mysqli_stmt_bind_param($stmt, "i", $uid);
+    mysqli_stmt_execute($stmt);
+    $rs = mysqli_stmt_get_result($stmt);
+    $r=mysqli_fetch_assoc($rs);
+    return $r[$thing];
 }
+
 //get某人在某周的某欄位值(ord table)
 function getFromOrd ($uid, $week, $thing) {
 	global $db;    
-    $sql = "select '$thing' from ord where uid=? AND week=?;";
+    $sql = "select ($thing) from ord where uid=? AND week=?;";
     $stmt = mysqli_prepare($db, $sql);
     mysqli_stmt_bind_param($stmt, "ii", $uid, $week);
     mysqli_stmt_execute($stmt);
     $rs = mysqli_stmt_get_result($stmt);
-    return $rs;
+    $r=mysqli_fetch_assoc($rs);
+    return $r[$thing];
 }
+
+//修改某人在某周的某欄位值
+function updateToOrd ($uid, $week, $thing, $rs) {
+	global $db;	
+    $sql = "update ord set $thing=? where uid=? AND week=?;";
+    $stmt = mysqli_prepare($db, $sql);
+    mysqli_stmt_bind_param($stmt, "iii", $rs, $uid, $week);
+    mysqli_stmt_execute($stmt); //執行SQL
+    //echo "message updated";
+    
+}
+
 
 // getDownstreamID()拿到下游uid
 function getDownstreamID($uid) {
@@ -50,12 +75,18 @@ function getDownstreamID($uid) {
     $tid = getFromUser($uid, "tid");
     $rid = $rid + 1;
 
-    $sql = "select uid from user where tid=? AND rid=?;";
+    $sql = "select * from user where tid=? AND rid=?;";
     $stmt = mysqli_prepare($db, $sql);
     mysqli_stmt_bind_param($stmt, "ii", $tid, $rid);
     mysqli_stmt_execute($stmt);
-    $rs = mysqli_stmt_get_result($stmt);    //下游的uid
-    return $rs;
+<<<<<<< HEAD:Character/gameModel.php
+    $id = mysqli_stmt_get_result($stmt);    //下游的uid
+    $r=mysqli_fetch_assoc($id);
+    return $r['uid'];
+=======
+    $downstream = mysqli_stmt_get_result($stmt);    //下游的uid
+    return $downstream;
+>>>>>>> 2a068487693b19acce45bb87d346c5e2a419bb61:Character/func.php
 }
 // getUpstreamID()拿到上游uid
 function getUpstreamID($uid) {
@@ -67,47 +98,19 @@ function getUpstreamID($uid) {
     $tid = getFromUser($uid, "tid");
     $rid = $rid - 1;
 
-    $sql = "select uid from user where tid=? AND rid=?;";
+    $sql = "select * from user where tid=? AND rid=?;";
     $stmt = mysqli_prepare($db, $sql);
     mysqli_stmt_bind_param($stmt, "ii", $tid, $rid);
     mysqli_stmt_execute($stmt);
-    $rs = mysqli_stmt_get_result($stmt);    //上游的uid
-    return $rs;
+<<<<<<< HEAD:Character/gameModel.php
+    $id = mysqli_stmt_get_result($stmt);    //上游的uid
+    $r=mysqli_fetch_assoc($id);
+    return $r['uid'];
+=======
+    $upstream = mysqli_stmt_get_result($stmt);    //上游的uid
+    return $upstream;
+>>>>>>> 2a068487693b19acce45bb87d346c5e2a419bb61:Character/func.php
 }
-
-///////////////////////////////////////////////////////////////////////////////////////
-
-//修改某人在某周的某欄位值(ord table)
-function updateToOrd ($uid, $week, $thing, $rs) {
-	global $db;	
-    $sql = "update ord set '$thing'=? where uid=? AND week=?;";
-    $stmt = mysqli_prepare($db, $sql);
-    mysqli_stmt_bind_param($stmt, "iii", $rs, $uid, $week);
-    mysqli_stmt_execute($stmt); //執行SQL
-    //echo "message updated";
-}
-
-//修改某人的某欄位值(user table)
-function updateToUser ($uid, $thing, $rs) {
-	global $db;	
-    $sql = "update user set '$thing'=? where uid=?;";
-    $stmt = mysqli_prepare($db, $sql);
-    mysqli_stmt_bind_param($stmt, "ii", $rs, $uid);
-    mysqli_stmt_execute($stmt); //執行SQL
-    //echo "message updated";
-}
-
-//修改某隊的某欄位值(team table)
-function updateToTeam ($tid, $thing, $rs) {
-	global $db;	
-    $sql = "update team set '$thing'=? where tid=?;";
-    $stmt = mysqli_prepare($db, $sql);
-    mysqli_stmt_bind_param($stmt, "ii", $rs, $tid);
-    mysqli_stmt_execute($stmt); //執行SQL
-    //echo "message updated";
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////
 
 // countPurc計算Purc
 function countPurc ($uid, $week) {
@@ -116,12 +119,11 @@ function countPurc ($uid, $week) {
     } else {
         $Ago = $week - 2;    //上上週
         $rid =  getFromUser($uid, "rid");
-
         if ($rid == 1) {    //生產者沒有上游了
             $purc = getFromOrd ($uid, $Ago, "ord");    //自己上上週的訂貨量
         } else {
             $upstream = getUpstreamID($uid);    //上游uid
-            $purc = getFromOrd ($upstream, $Ago, "sales");    //上游上上週的銷售量
+            $purc = getFromOrd ($upstream, $Ago, "sales");//上游上上週的銷售量
         }
     }
     updateToOrd ($uid, $week, "purc", $purc);
@@ -132,11 +134,13 @@ function countNeed ($uid, $week) {
 	global $db;
     $rid =  getFromUser($uid, "rid");
     if ($rid == 4) {    //零售商沒有下游了
-        $sql = "select quantity from consumer where week=?;";
+        $sql = "select * from consumer where week=?;";
         $stmt = mysqli_prepare($db, $sql);
         mysqli_stmt_bind_param($stmt, "i", $week);
         mysqli_stmt_execute($stmt);
-        $ord = mysqli_stmt_get_result($stmt);    //消費者本週的訂購量
+        $rs = mysqli_stmt_get_result($stmt);    
+        $r=mysqli_fetch_assoc($rs);    
+        $ord = $r['quanitity'];    //消費者本週的訂購量
     } else {
         $downstream = getDownstreamID($uid);    //下游的uid
         $ord = getFromOrd ($downstream, $week, "ord");    //下游本週的訂購量
@@ -194,73 +198,31 @@ function countstock ($uid, $week) {
     $stock = $Lstock + $purc - $need;
     updateToOrd ($uid, $week, "stock", $stock);
 }
-
-function countOrdCost ($uid, $week) {    //此訂單的成本
-    $stock = getFromOrd ($uid, $Ago, "stock");    //自己本周的庫存量
-    
-    if ($stock < 0) {    //欠貨成本２
-        $cost = $stock * 2;
-    } else {　　　　//庫存成本１
-        $cost = $stock * 1;
-    }
-
-    updateToOrd ($uid, $week, "cost", $cost);
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-function countUserCost ($uid, $week) {    //個人累積成本
-    if ($week == 1) {
-        $Lcost = 0;
-    } else {
-        $Lcost = getFromUser($uid, "Ucost");    //此人之前的累積cost
-    }
-    $cost = getFromOrd ($uid, $week, "cost");    //這周cost
-    
-    $Ucost = $Lcost + $cost;    //此人到目前為止的累積cost
-    updateToUser ($uid, "Ucost", $Ucost);
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-function countTeamCost ($tid, $week) {    //團隊累積成本
-    
-    updateToTeam ($tid, "Tcost", $rs);
-}
-
-function countTeamRank ($tid, $week) {    //團隊排名
-    
-    updateToTeam ($tid, "rank", $rs);
-}
-
-function countTeamWeek ($tid, $week) {    //團隊周數進度
-    
-    updateToTeam ($tid, "week", $rs);
-}
-
+	
 function checkOrder($order){
 	if($order < 0){
 		return false;
 	}
-	else {
+	else{
 		return true;
 	}
 }
 
 
-function updateOrder($order,$oid){
+function updateOrder($order,$uid,$week){
 	global $db;
-	$sql = "update ord set ord = ? where oid = ? ";
+	$sql = "update ord set ord = ? where uid = ? and week = ?";
 	$stmt = mysqli_prepare($db, $sql);
-	mysqli_stmt_bind_param($stmt, "ii",$order,$oid);
+	mysqli_stmt_bind_param($stmt, "iii",$order,$uid,$week);
 	mysqli_stmt_execute($stmt); 
 	return;
 }
 
-function addOrder(){
+function addOrder($uid,$week){
     global $db;
-    $sql = "insert into ord(uid) values(3)";
+    $sql = "insert into ord(uid,week) values(?,?)";
     $stmt = mysqli_prepare($db, $sql);
+    mysqli_stmt_bind_param($stmt, "ii",$uid,$week);
     mysqli_stmt_execute($stmt); 
     return;
 }
@@ -273,5 +235,49 @@ function orderlist(){
 	$result = mysqli_stmt_get_result($stmt);
 	return $result;
 }
+
+// function countOrdCost ($uid, $week) {    //此訂單的成本
+//     $stock = getFromOrd ($uid, $week, "stock");    //自己本周的庫存量
+//     echo $stock;
+//     if ($stock < 0) {    //欠貨成本２
+//         $cost = $stock * 2;
+//     } else {　　　　//庫存成本１
+//         $cost = $stock * 1;
+//     }
+
+//     updateToOrd ($uid, $week, "cost", $cost);
+// }
+
+// ///////////////////////////////////////////////////////////////////////////////////////////////
+
+// function countUserCost ($uid, $week) {    //個人累積成本
+//     if ($week == 1) {
+//         $Lcost = 0;
+//     } else {
+//         $Lcost = getFromUser($uid, "Ucost");    //此人之前的累積cost
+//     }
+//     $cost = getFromOrd ($uid, $week, "cost");    //這周cost
+    
+//     $Ucost = $Lcost + $cost;    //此人到目前為止的累積cost
+//     updateToUser ($uid, "Ucost", $Ucost);
+// }
+
+// ////////////////////////////////////////////////////////////////////////////////////////////////
+
+// function countTeamCost ($tid) {    //團隊累積成本
+//     global $db;
+// 	$sql = "select Ucost from user where tid=?;";
+//     $stmt = mysqli_prepare($db, $sql);
+//     mysqli_stmt_bind_param($stmt, "i", $tid);
+// 	mysqli_stmt_execute($stmt);
+// 	$result = mysqli_stmt_get_result($stmt);
+    
+//     $Tcost = 0;
+//     while ($rs = mysqli_fetch_assoc($result)) {
+// 	    $Tcost = $Tcost + $rs['Ucost'];
+//     }
+
+//     updateToTeam ($tid, "Tcost", $Tcost);
+// }
 
 ?>

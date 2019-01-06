@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機: 127.0.0.1
--- 產生時間： 2019 年 01 月 02 日 08:55
+-- 產生時間： 2019 年 01 月 06 日 08:27
 -- 伺服器版本: 10.1.35-MariaDB
 -- PHP 版本： 7.2.9
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- 資料庫： `beer game`
+-- 資料庫： `beer_game`
 --
 
 -- --------------------------------------------------------
@@ -74,11 +74,17 @@ CREATE TABLE `ord` (
 --
 
 INSERT INTO `ord` (`oid`, `uid`, `ord`, `purc`, `need`, `sales`, `stock`, `cost`, `week`) VALUES
-(35, 3, 0, 0, 0, 0, 0, 0, 0),
-(36, 3, 8, 0, 0, 0, 0, 0, 0),
-(37, 3, 0, 0, 0, 0, 0, 0, 0),
-(38, 3, 0, 0, 0, 0, 0, 0, 0),
-(39, 3, 0, 0, 0, 0, 0, 0, 0);
+(1, 1, 5, 4, 4, 4, 4, 4, 1),
+(2, 1, 5, 4, 4, 4, 4, 4, 2),
+(3, 2, 5, 4, 4, 4, 4, 4, 1),
+(4, 2, 5, 4, 4, 4, 4, 4, 2),
+(5, 3, 5, 4, 4, 100, 4, 4, 1),
+(6, 3, 5, 4, 4, 4, 4, 4, 2),
+(7, 4, 5, 4, 4, 4, 4, 4, 2),
+(8, 4, 5, 4, 4, 4, 4, 4, 1),
+(9, 1, 5, 4, 4, 4, 4, 4, 3),
+(10, 2, 5, 4, 4, 4, 4, 4, 3),
+(36, 3, 5, 5, 5, 5, 5, 5, 3);
 
 -- --------------------------------------------------------
 
@@ -98,7 +104,7 @@ CREATE TABLE `team` (
 --
 
 INSERT INTO `team` (`tid`, `rank`, `Tcost`, `status`) VALUES
-(1, 0, 0, 0),
+(1, 0, 0, 1),
 (2, 6, 0, 0),
 (3, 0, 0, 0),
 (4, 0, 0, 0);
@@ -124,9 +130,12 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`uid`, `loginID`, `pwd`, `pms`, `rid`, `tid`, `Ucost`) VALUES
-(1, '00000000', '1234', 1, 0, 0, 0),
-(13, 'test', '123', 0, 1, 3, 0),
-(15, 'ttt', '111', 0, 0, 0, 0);
+(1, 'test', '123', 0, 1, 1, 0),
+(2, 'ttt', '111', 0, 2, 1, 0),
+(3, 'qq', '1', 0, 3, 1, 0),
+(4, 'qqq', '123', 0, 4, 1, 0),
+(6, '0', '1234', 1, 0, 0, 0),
+(7, 'q', '222', 0, 2, 2, 0);
 
 --
 -- 已匯出資料表的索引
@@ -158,7 +167,7 @@ ALTER TABLE `user`
 -- 使用資料表 AUTO_INCREMENT `ord`
 --
 ALTER TABLE `ord`
-  MODIFY `oid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `oid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=108;
 
 --
 -- 使用資料表 AUTO_INCREMENT `team`
@@ -170,7 +179,7 @@ ALTER TABLE `team`
 -- 使用資料表 AUTO_INCREMENT `user`
 --
 ALTER TABLE `user`
-  MODIFY `uid` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `uid` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

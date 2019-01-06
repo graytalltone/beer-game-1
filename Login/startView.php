@@ -1,11 +1,9 @@
 <?php
-require_once("db.php");
-require_once("gameModel.php");
+	require_once('startModel.php');
 ?>
 <head>
-	<title>Beer-game</title>
-
-    <style>
+<title>StartGame</title>
+<style>
     table {
         width: 100%;
         border-spacing: 0px;
@@ -58,55 +56,44 @@ require_once("gameModel.php");
     }
     </style>
 </head>
-
 <body>
-
-    <div class="">
+<div class="">
 		<table>
         <caption>
-          Factory
+          隊伍狀況
         </caption>
         <thead>
 			<tr>
 			<th scope="col">
-				訂貨量
+				隊伍
 			</th>
-			<th scope="col">
-				進貨量
+            <th scope="col">
+				loginID
             </th>
             <th scope="col">
-				需求量
-            </th>
-            <th scope="col">
-				銷貨量
-            </th>
-			<th scope="col">
-				庫存量
+				角色
             </th>
           </tr>
         </thead>
 		<tbody>
-        
 <?php
-    $result = orderlist();
+    $result = teamlist();
     while (	$rs = mysqli_fetch_assoc($result)) {
-    echo"<tr><td>" , $rs['ord'],"</td>";
-	echo"<td>" , $rs['purc'],"</td>";
-	echo"<td>" , $rs['need'],"</td>";
-	echo"<td>" , $rs['sales'],"</td>";
-	echo"<td>" , $rs['stock'],"</td>";
+        if ($rs['rid'] == 1)
+            $role = "factory";
+        else if ($rs['rid'] == 2)
+            $role = "distributor";
+        else if ($rs['rid'] == 3)
+            $role = "wholesaler";
+        else 
+            $role = "retailer";
+        echo "<tr><td>",$rs['tid'],"</td><td>",$rs['loginID'],"</td><td>",$role,"</td></tr>";
+        
     }
+     header('refresh: 3;url="startView.php"');
 ?>
-
-<tr><td>
-<form method = "POST" action = "gameContorl.php">
-    <input type = "text" name = "ord">
-    <input type = "submit" value = "下單">
+<form action="startContorl.php" method="post" name="start">
+<input name="submit" type="submit" value="Start" />
 </form>
-</td></tr>
-</tbody>
-</table>
 </div>
-
 </body>
-</html>
